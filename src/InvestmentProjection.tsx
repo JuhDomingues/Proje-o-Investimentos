@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { TrendingUp, DollarSign, Target, Users, Zap } from 'lucide-react';
 
@@ -37,14 +37,20 @@ const InvestmentProjection = () => {
     { name: 'Mentorias', value: receitaMentoria, color: '#10b981' }
   ];
   
-  const formatCurrency = (value) => {
+  const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: 'BRL'
     }).format(value);
   };
   
-  const StatCard = ({ icon: Icon, title, value, subtitle, color }) => (
+  const StatCard = ({ icon: Icon, title, value, subtitle, color }: {
+    icon: React.ComponentType<any>;
+    title: string;
+    value: string;
+    subtitle?: string;
+    color: string;
+  }) => (
     <div className="bg-white rounded-lg shadow-md p-6 border-l-4" style={{ borderLeftColor: color }}>
       <div className="flex items-start justify-between">
         <div className="flex-1">
@@ -154,7 +160,7 @@ const InvestmentProjection = () => {
               <XAxis dataKey="semana" />
               <YAxis />
               <Tooltip 
-                formatter={(value) => formatCurrency(value)}
+                formatter={(value) => formatCurrency(Number(value))}
                 labelStyle={{ color: '#000' }}
               />
               <Legend />
@@ -193,7 +199,7 @@ const InvestmentProjection = () => {
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
-                <Tooltip formatter={(value) => formatCurrency(value)} />
+                <Tooltip formatter={(value) => formatCurrency(Number(value))} />
               </PieChart>
             </ResponsiveContainer>
             <div className="mt-6 space-y-3">
