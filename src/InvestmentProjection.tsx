@@ -159,8 +159,11 @@ const InvestmentProjection = () => {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="semana" />
               <YAxis />
-              <Tooltip 
-                formatter={(value) => formatCurrency(Number(value))}
+              <Tooltip
+                formatter={(value, name) => {
+                  if (name === 'Vendas esperadas') return value;
+                  return formatCurrency(Number(value));
+                }}
                 labelStyle={{ color: '#000' }}
               />
               <Legend />
