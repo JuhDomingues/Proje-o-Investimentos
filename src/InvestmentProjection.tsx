@@ -254,6 +254,52 @@ const InvestmentProjection = () => {
           </div>
         </div>
         
+        {/* Projeção de Investimento Semanal */}
+        <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">💳 Projeção de Investimento em Tráfego por Semana</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b-2 border-gray-200">
+                  <th className="text-left py-3 px-4 font-semibold text-gray-700">Semana</th>
+                  <th className="text-center py-3 px-4 font-semibold text-gray-700">Meta de Vendas</th>
+                  <th className="text-center py-3 px-4 font-semibold text-gray-700">% do Total</th>
+                  <th className="text-right py-3 px-4 font-semibold text-gray-700">Investimento Tráfego</th>
+                  <th className="text-center py-3 px-4 font-semibold text-gray-700">CPA</th>
+                </tr>
+              </thead>
+              <tbody>
+                {weeklyData.map((week, idx) => (
+                  <tr key={idx} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="py-4 px-4 font-medium text-gray-900">{week.semana}</td>
+                    <td className="text-center py-4 px-4 text-gray-700">{week.vendas} guias</td>
+                    <td className="text-center py-4 px-4">
+                      <span className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">
+                        {week.percentual}
+                      </span>
+                    </td>
+                    <td className="text-right py-4 px-4 font-bold text-green-600">{formatCurrency(week.investimento)}</td>
+                    <td className="text-center py-4 px-4 text-gray-700">{formatCurrency(cpa)}</td>
+                  </tr>
+                ))}
+                <tr className="bg-gray-50 font-bold">
+                  <td className="py-4 px-4 text-gray-900">TOTAL</td>
+                  <td className="text-center py-4 px-4 text-gray-900">{totalVendas} guias</td>
+                  <td className="text-center py-4 px-4 text-gray-900">100%</td>
+                  <td className="text-right py-4 px-4 text-green-700 text-lg">{formatCurrency(investimentoTotal)}</td>
+                  <td className="text-center py-4 px-4 text-gray-700">-</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="mt-6 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+            <p className="text-sm text-gray-700">
+              <strong>💡 Dica:</strong> As semanas 2 e 3 concentram 60% das vendas ({weeklyData[1].vendas + weeklyData[2].vendas} guias).
+              Considere alocar verba extra nessas semanas para maximizar resultados e aproveitar o momento de pico da campanha.
+            </p>
+          </div>
+        </div>
+
         {/* Estratégia Sugerida */}
         <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">🎯 Estratégia Recomendada</h2>
