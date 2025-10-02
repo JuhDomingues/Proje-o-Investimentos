@@ -4,24 +4,38 @@ import { TrendingUp, DollarSign, Target, Users, Zap } from 'lucide-react';
 
 const InvestmentProjection = () => {
   const [cpa, setCpa] = useState(100);
-  
+
+  // Cálculos dinâmicos baseados no CPA
+  const receitaTotal = 50000; // Meta de faturamento fixo
+  const taxaConversao = 9.4; // Taxa de conversão fixa em 9,4%
+  const precoGuia = 29.90;
+  const precoMentoria = 4997;
+
+  // Calculando quantidade de vendas necessárias para atingir R$ 50k
+  // Fórmula: receitaTotal = (vendas × precoGuia) + (vendas × taxaConversao/100 × precoMentoria)
+  const totalVendas = Math.round(receitaTotal / (precoGuia + (taxaConversao / 100 * precoMentoria)));
+
+  // Cálculo das vendas semanais baseado no total
+  const vendaSemana1 = Math.round(totalVendas * 0.20);
+  const vendaSemana2 = Math.round(totalVendas * 0.30);
+  const vendaSemana3 = Math.round(totalVendas * 0.30);
+  const vendaSemana4 = totalVendas - vendaSemana1 - vendaSemana2 - vendaSemana3;
+
   // Dados semanais
   const weeklyData = [
-    { semana: 'Semana 1', vendas: 36, investimento: 3600, percentual: '20%' },
-    { semana: 'Semana 2', vendas: 54, investimento: 5400, percentual: '30%' },
-    { semana: 'Semana 3', vendas: 54, investimento: 5400, percentual: '30%' },
-    { semana: 'Semana 4', vendas: 36, investimento: 3600, percentual: '20%' }
+    { semana: 'Semana 1', vendas: vendaSemana1, investimento: vendaSemana1 * cpa, percentual: '20%' },
+    { semana: 'Semana 2', vendas: vendaSemana2, investimento: vendaSemana2 * cpa, percentual: '30%' },
+    { semana: 'Semana 3', vendas: vendaSemana3, investimento: vendaSemana3 * cpa, percentual: '30%' },
+    { semana: 'Semana 4', vendas: vendaSemana4, investimento: vendaSemana4 * cpa, percentual: '20%' }
   ];
-  
-  // Cálculos dinâmicos baseados no CPA
-  const totalVendas = 180;
+
   const investimentoTotal = cpa * totalVendas;
-  const receitaGuias = totalVendas * 29.90;
-  const clientesMentoria = Math.round(totalVendas * 0.094);
-  const receitaMentoria = clientesMentoria * 4997;
-  const receitaTotal = receitaGuias + receitaMentoria;
-  const lucroLiquido = receitaTotal - investimentoTotal;
-  const roi = receitaTotal / investimentoTotal;
+  const receitaGuias = totalVendas * precoGuia;
+  const clientesMentoria = Math.round(totalVendas * (taxaConversao / 100));
+  const receitaMentoria = clientesMentoria * precoMentoria;
+  const receitaTotalReal = receitaGuias + receitaMentoria;
+  const lucroLiquido = receitaTotalReal - investimentoTotal;
+  const roi = receitaTotalReal / investimentoTotal;
   const cacMentoria = investimentoTotal / clientesMentoria;
   
   // Dados de ROI por cenário
@@ -84,11 +98,11 @@ const InvestmentProjection = () => {
             </div>
             <div>
               <p className="text-blue-100 mb-2">Meta de Vendas - Outubro</p>
-              <p className="text-3xl font-bold">180 Guias</p>
+              <p className="text-3xl font-bold">{totalVendas} Guias</p>
             </div>
             <div>
               <p className="text-blue-100 mb-2">Conversão para Mentoria</p>
-              <p className="text-3xl font-bold">9,4% (≈17 clientes)</p>
+              <p className="text-3xl font-bold">{taxaConversao.toFixed(1)}% (≈{clientesMentoria} clientes)</p>
             </div>
             <div>
               <p className="text-blue-100 mb-2">Ticket Mentoria</p>
@@ -282,7 +296,7 @@ const InvestmentProjection = () => {
             </div>
             <div className="bg-white/10 rounded-lg p-4 backdrop-blur-sm">
               <p className="text-green-100 text-sm mb-1">Eficiência do Funil</p>
-              <p className="text-4xl font-bold">9.4%</p>
+              <p className="text-4xl font-bold">{taxaConversao.toFixed(1)}%</p>
               <p className="text-green-100 text-sm mt-1">conversão para mentoria</p>
             </div>
           </div>
