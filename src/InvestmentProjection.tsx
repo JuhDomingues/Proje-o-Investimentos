@@ -59,9 +59,6 @@ const InvestmentProjection = () => {
   const roi = receitaTotalReal / investimentoTotal;
   const cacMentoria = clientesMentoria > 0 ? investimentoTotal / clientesMentoria : 0;
 
-  // Cálculo da meta de agendamento
-  const metaAgendamento = Math.round(totalVendas * 0.5); // 50% das vendas do guia
-
   // Metas de comparecimento semanais (50% das vendas de cada semana)
   const metaComparecimentoSemana1 = Math.round(vendaSemana1 * 0.5);
   const metaComparecimentoSemana2 = Math.round(vendaSemana2 * 0.5);
