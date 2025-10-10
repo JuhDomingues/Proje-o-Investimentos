@@ -61,7 +61,6 @@ const InvestmentProjection = () => {
 
   // Cálculo da meta de agendamento
   const metaAgendamento = Math.round(totalVendas * 0.5); // 50% das vendas do guia
-  const percentualMetaAgendamento = metaAgendamento > 0 ? (agendamentos / metaAgendamento) * 100 : 0;
 
   // Metas de comparecimento semanais (50% das vendas de cada semana)
   const metaComparecimentoSemana1 = Math.round(vendaSemana1 * 0.5);
