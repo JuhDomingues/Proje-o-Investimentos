@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Campanha representa um período de campanha (ex: Outubro 2024)
+model Campaign {
+  id            String   @id @default(uuid())
+  name          String
+  month         String
+  year          Int
+  cpa           Float    // CPA médio da campanha
+  metaVendas    Int      // Meta total de vendas
+  metaReceita   Float    // Meta total de receita
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  weeks         Week[]
+
+  @@unique([month, year])
+}
+
+// Semana representa os dados de uma semana específica
+model Week {
+  id                      String   @id @default(uuid())
+  campaignId              String
+  weekNumber              Int      // 1, 2, 3, 4
+
+  // Metas
+  metaVendas              Int      // Meta de vendas da semana
+  metaInvestimento        Float    // Meta de investimento
+  metaComparecimentos     Int      // Meta de comparecimentos
+
+  // Realizados
+  vendasRealizadas        Int      @default(0)
+  investimentoReal        Float    @default(0)
+  comparecimentosReais    Int      @default(0)
+  agendamentos            Int      @default(0)
+  vendasMentoria          Int      @default(0)
+
+  // Calculados
+  cpaReal                 Float?   // Calculado: investimentoReal / vendasRealizadas
+  percentualMeta          Float?   // Calculado: (vendasRealizadas / metaVendas) * 100
+  percentualComparecimento Float?  // Calculado: (comparecimentosReais / metaComparecimentos) * 100
+
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  campaign                Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@unique([campaignId, weekNumber])
+}
